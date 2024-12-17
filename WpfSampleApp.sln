@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWarsClient", "src\StarWarsClient\StarWarsClient.csproj", "{8CE2CC30-B083-446F-B6B0-94583CEA1622}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWarsService", "src\StarWarsService\StarWarsService.csproj", "{42113FA0-43D7-48DB-8785-FD93A2500F67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqliteDb", "src\SqliteDb\SqliteDb.csproj", "{0C44EE94-B247-48B8-9ADB-ABCD6A58FA77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{075AB445-0BE4-437F-B23B-C0E06087EE87}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{0AAA3E8E-BBC5-4B72-9B3E-CE45662F6C23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CE2CC30-B083-446F-B6B0-94583CEA1622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CE2CC30-B083-446F-B6B0-94583CEA1622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CE2CC30-B083-446F-B6B0-94583CEA1622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CE2CC30-B083-446F-B6B0-94583CEA1622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42113FA0-43D7-48DB-8785-FD93A2500F67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42113FA0-43D7-48DB-8785-FD93A2500F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42113FA0-43D7-48DB-8785-FD93A2500F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42113FA0-43D7-48DB-8785-FD93A2500F67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C44EE94-B247-48B8-9ADB-ABCD6A58FA77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C44EE94-B247-48B8-9ADB-ABCD6A58FA77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C44EE94-B247-48B8-9ADB-ABCD6A58FA77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C44EE94-B247-48B8-9ADB-ABCD6A58FA77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{075AB445-0BE4-437F-B23B-C0E06087EE87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{075AB445-0BE4-437F-B23B-C0E06087EE87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{075AB445-0BE4-437F-B23B-C0E06087EE87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{075AB445-0BE4-437F-B23B-C0E06087EE87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AAA3E8E-BBC5-4B72-9B3E-CE45662F6C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AAA3E8E-BBC5-4B72-9B3E-CE45662F6C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AAA3E8E-BBC5-4B72-9B3E-CE45662F6C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AAA3E8E-BBC5-4B72-9B3E-CE45662F6C23}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

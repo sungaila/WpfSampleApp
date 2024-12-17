@@ -1,0 +1,8 @@
+services:
+  starwarsservice:
+    image: ${DOCKER_REGISTRY-}starwarsservice
+    build:
+      context: .
+      dockerfile: src/StarWarsService/Dockerfile
+    ports:
+      - 7232:7232

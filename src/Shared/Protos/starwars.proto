@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option csharp_namespace = "Protobuf";
+
+package starwars;
+
+service StarWarsGrpc {
+  rpc GetPeople (GetPeopleRequest) returns (GetPeopleReply);
+}
+
+message GetPeopleRequest {
+}
+
+message GetPeopleReply {
+  repeated Person results = 1;
+}
+
+message Person {
+  string name = 1;
+  uint32 height = 2;
+  uint32 mass = 3;
+  string birth_year = 4;
+  string gender = 5;
+}
