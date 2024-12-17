@@ -1,0 +1,63 @@
+﻿<Page x:Class="StarWarsClient.Views.PeopleListView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:converters="clr-namespace:StarWarsClient.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:StarWarsClient.Views"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:viewModels="clr-namespace:StarWarsClient.ViewModels"
+      Title="PeopleListView"
+      d:DataContext="{d:DesignInstance Type=viewModels:PeopleViewModel,
+                                       IsDesignTimeCreatable=True}"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      mc:Ignorable="d">
+
+    <Grid>
+        <DataGrid AutoGenerateColumns="False"
+                  CanUserSortColumns="True"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding Results, Mode=OneWay}"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name, Mode=OneWay}" Header="Name" />
+                <DataGridTextColumn Binding="{Binding Height, Mode=OneWay}" Header="Height" />
+                <DataGridTextColumn Binding="{Binding Mass, Mode=OneWay}" Header="Mass" />
+                <DataGridTextColumn Binding="{Binding BirthYear, Mode=OneWay}" Header="Birth year" />
+                <DataGridTextColumn Binding="{Binding Gender, Mode=OneWay}" Header="Gender" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Content="Keine Einträge"
+               Focusable="False"
+               FontSize="18"
+               IsHitTestVisible="False"
+               Visibility="{Binding Results.Count, Mode=OneWay, Converter={x:Static converters:ZeroToVisibilityConverter.Instance}}" />
+
+        <Button Margin="7"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{Binding RefreshCommand}"
+                CommandParameter="{Binding}"
+                Style="{DynamicResource MaterialDesignFloatingActionButton}"
+                ToolTip="Personen abrufen">
+            <Grid>
+                <materialDesign:PackIcon Width="32"
+                                         Height="32"
+                                         Kind="Refresh"
+                                         Visibility="{Binding IsRefreshing, Mode=OneWay, Converter={x:Static converters:BoolToVisibilityConverter.Instance}, ConverterParameter=True}" />
+
+                <ProgressBar Width="24"
+                             Height="24"
+                             Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"
+                             IsIndeterminate="True"
+                             Style="{DynamicResource MaterialDesignCircularProgressBar}"
+                             Visibility="{Binding IsRefreshing, Mode=OneWay, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}" />
+            </Grid>
+        </Button>
+    </Grid>
+</Page>
