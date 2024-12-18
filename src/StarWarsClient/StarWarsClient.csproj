@@ -8,6 +8,8 @@
     <UseWPF>true</UseWPF>
     <ApplicationManifest>App.manifest</ApplicationManifest>
     <LangVersion>preview</LangVersion>
+    <Title>Star Wars API Viewer</Title>
+    <Copyright>David Sungaila</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

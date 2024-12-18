@@ -4,6 +4,10 @@ using System.Windows.Data;
 
 namespace StarWarsClient.Converters
 {
+    /// <summary>
+    /// Converts an <see langword="int"/> into a <see cref="Visibility"/>.
+    /// The conversion can be reverted by using <see langword="true"/> for the converter parameter.
+    /// </summary>
     public class ZeroToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

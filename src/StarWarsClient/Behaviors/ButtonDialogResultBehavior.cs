@@ -5,9 +5,12 @@ using System.Windows.Media;
 
 namespace StarWarsClient.Behaviors
 {
+    /// <summary>
+    /// Sets <see cref="Window.DialogResult"/> to <see cref="DialogResult"/> when the attached button is clicked.
+    /// </summary>
     public class ButtonDialogResultBehavior : Behavior<Button>
     {
-        public static DependencyProperty DialogResultProperty = DependencyProperty.Register(
+        public static readonly DependencyProperty DialogResultProperty = DependencyProperty.Register(
             nameof(DialogResult),
             typeof(bool?),
             typeof(ButtonDialogResultBehavior),

@@ -5,6 +5,10 @@ using SqliteDb;
 
 namespace StarWarsService.Clients
 {
+    /// <summary>
+    /// Uses a lokal SQLite database file to receive Star Wars related data.
+    /// </summary>
+    /// <param name="dbContext"></param>
     public class SqliteDbClient(StarWarsContext dbContext) : IStarWarsRepository
     {
         public Task<People> GetPeopleAsync()

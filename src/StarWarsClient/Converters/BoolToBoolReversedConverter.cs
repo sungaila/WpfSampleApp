@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace StarWarsClient.Converters
 {
+    /// <summary>
+    /// Converts a <see langword="bool"/> into its reversed value.
+    /// </summary>
     public class BoolToBoolReversedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

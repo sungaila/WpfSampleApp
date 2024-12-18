@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace StarWarsClient.ViewModels
 {
+    /// <summary>
+    /// Holds information for a single person and has some custom validation logic.
+    /// </summary>
     public partial class PersonViewModel : ObservableValidator
     {
         [ObservableProperty]

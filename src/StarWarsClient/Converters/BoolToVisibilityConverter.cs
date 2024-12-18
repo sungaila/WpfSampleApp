@@ -4,6 +4,10 @@ using System.Windows.Data;
 
 namespace StarWarsClient.Converters
 {
+    /// <summary>
+    /// Converts a <see langword="bool"/> into a <see cref="Visibility"/>.
+    /// The conversion can be reverted by using <see langword="true"/> for the converter parameter.
+    /// </summary>
     public class BoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

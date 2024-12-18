@@ -3,6 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace Shared.Models
 {
+    /// <summary>
+    /// See <see href="https://web.archive.org/web/20241113211619/https://swapi.dev/documentation#people"/>.
+    /// This record is annotated for both JSON deserialization and EF Core code-first context.
+    /// </summary>
     public record Person(
         [property: Key]
         [property: JsonIgnore()]
