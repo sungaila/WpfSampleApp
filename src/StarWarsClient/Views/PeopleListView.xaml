@@ -1,8 +1,10 @@
 ﻿<Page x:Class="StarWarsClient.Views.PeopleListView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:commands="clr-namespace:StarWarsClient.Commands"
       xmlns:converters="clr-namespace:StarWarsClient.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:local="clr-namespace:StarWarsClient.Views"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,7 +17,14 @@
       mc:Ignorable="d">
 
     <Grid>
-        <DataGrid AutoGenerateColumns="False"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Row="0"
+                  AutoGenerateColumns="False"
                   CanUserSortColumns="True"
                   IsReadOnly="True"
                   ItemsSource="{Binding Results, Mode=OneWay}"
@@ -28,6 +37,38 @@
                 <DataGridTextColumn Binding="{Binding BirthYear, Mode=OneWay}" Header="Birth year" />
                 <DataGridTextColumn Binding="{Binding Gender, Mode=OneWay}" Header="Gender" />
             </DataGrid.Columns>
+
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Enter"
+                            Command="{x:Static commands:PersonCommands.OpenDetailsCommand}"
+                            CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
+            </DataGrid.InputBindings>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{x:Static commands:PersonCommands.OpenDetailsCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <DataGrid.RowStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                    <Style.Setters>
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Command="{x:Static commands:PersonCommands.OpenDetailsCommand}"
+                                              CommandParameter="{Binding}"
+                                              Header="Öffnen">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="OpenInNew" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+            </DataGrid.RowStyle>
         </DataGrid>
 
         <Label HorizontalAlignment="Center"
@@ -38,10 +79,12 @@
                IsHitTestVisible="False"
                Visibility="{Binding Results.Count, Mode=OneWay, Converter={x:Static converters:ZeroToVisibilityConverter.Instance}}" />
 
-        <Button Margin="7"
+        <Button Grid.Row="0"
+                Grid.RowSpan="3"
+                Margin="7"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
-                Command="{Binding RefreshCommand}"
+                Command="{x:Static commands:PeopleCommands.RefreshCommand}"
                 CommandParameter="{Binding}"
                 Style="{DynamicResource MaterialDesignFloatingActionButton}"
                 ToolTip="Personen abrufen">
@@ -49,15 +92,58 @@
                 <materialDesign:PackIcon Width="32"
                                          Height="32"
                                          Kind="Refresh"
-                                         Visibility="{Binding IsRefreshing, Mode=OneWay, Converter={x:Static converters:BoolToVisibilityConverter.Instance}, ConverterParameter=True}" />
+                                         Visibility="{Binding Command.IsRunning, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Converter={x:Static converters:BoolToVisibilityConverter.Instance}, ConverterParameter=True}" />
 
                 <ProgressBar Width="24"
                              Height="24"
                              Foreground="{DynamicResource MaterialDesign.Brush.Primary.Foreground}"
                              IsIndeterminate="True"
                              Style="{DynamicResource MaterialDesignCircularProgressBar}"
-                             Visibility="{Binding IsRefreshing, Mode=OneWay, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}" />
+                             Visibility="{Binding Command.IsRunning, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Converter={x:Static converters:BoolToVisibilityConverter.Instance}}" />
             </Grid>
         </Button>
+
+        <Grid Grid.Row="3" Grid.IsSharedSizeScope="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="LabelGroup" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="Auto" SharedSizeGroup="LabelGroup" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="Auto" SharedSizeGroup="LabelGroup" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Content="⌀ Height" />
+
+            <TextBox Grid.Column="2"
+                     Width="100"
+                     HorizontalAlignment="Left"
+                     BorderThickness="0"
+                     IsReadOnly="True"
+                     Text="{Binding AverageHeight, Mode=OneWay, StringFormat={}{0:n}}" />
+
+            <Label Grid.Column="4" Content="⌀ Birth year" />
+
+            <TextBox Grid.Column="6"
+                     Width="100"
+                     HorizontalAlignment="Left"
+                     BorderThickness="0"
+                     IsReadOnly="True"
+                     Text="{Binding AverageBirthYear, Mode=OneWay}" />
+
+            <Label Grid.Column="8" Content="Male/Female" />
+
+            <TextBox Grid.Column="10"
+                     Width="100"
+                     HorizontalAlignment="Left"
+                     BorderThickness="0"
+                     IsReadOnly="True"
+                     Text="{Binding MaleFemaleRatio, Mode=OneWay, StringFormat={}{0:P}}" />
+        </Grid>
     </Grid>
 </Page>

@@ -1,47 +1,44 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace StarWarsClient.ViewModels
 {
-    public class PersonViewModel : ObservableValidator
+    public partial class PersonViewModel : ObservableValidator
     {
-        private string _name = string.Empty;
+        [ObservableProperty]
+        public partial string Name { get; set; }
 
-        public string Name
+        [ObservableProperty]
+        public partial uint Height { get; set; }
+
+        [ObservableProperty]
+        public partial uint Mass { get; set; }
+
+        [ObservableProperty]
+        [NotifyDataErrorInfo]
+        [CustomValidation(typeof(PersonViewModel), nameof(ValidateBirthYear))]
+        public partial string BirthYear { get; set; }
+
+        [ObservableProperty]
+        public partial GenderKind Gender { get; set; }
+
+        [GeneratedRegex(@"^(\d*(\.\d*)?\s?(BBY|ABY))|unknown")]
+        private static partial Regex BirthYearRegex();
+
+        public static ValidationResult ValidateBirthYear(string? birthYear, ValidationContext context)
         {
-            get => _name;
-            set => SetProperty(ref _name, value);
+            return birthYear != null && BirthYearRegex().IsMatch(birthYear)
+                ? ValidationResult.Success!
+                : new ValidationResult("Das Geburtsjahr muss dem Muster \"{Jahreszahl} BBY\", \"{Jahreszahl} ABY\" oder \"unknown\" entsprechen.");
         }
 
-        private uint _height;
-
-        public uint Height
+        public enum GenderKind
         {
-            get => _height;
-            set => SetProperty(ref _height, value);
-        }
-
-        private uint _mass;
-
-        public uint Mass
-        {
-            get => _mass;
-            set => SetProperty(ref _mass, value);
-        }
-
-        private string _birthYear = string.Empty;
-
-        public string BirthYear
-        {
-            get => _birthYear;
-            set => SetProperty(ref _birthYear, value);
-        }
-
-        private string _gender = string.Empty;
-
-        public string Gender
-        {
-            get => _gender;
-            set => SetProperty(ref _gender, value);
+            Unknown,
+            Male,
+            Female,
+            NotApplicable
         }
     }
 }
