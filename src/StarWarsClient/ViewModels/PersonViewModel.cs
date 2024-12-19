@@ -13,10 +13,12 @@ namespace StarWarsClient.ViewModels
         public partial string Name { get; set; }
 
         [ObservableProperty]
-        public partial uint Height { get; set; }
+        [NotifyDataErrorInfo]
+        [CustomValidation(typeof(PersonViewModel), nameof(ValidateHeight))]
+        public partial string Height { get; set; }
 
         [ObservableProperty]
-        public partial uint Mass { get; set; }
+        public partial string Mass { get; set; }
 
         [ObservableProperty]
         [NotifyDataErrorInfo]
@@ -26,13 +28,24 @@ namespace StarWarsClient.ViewModels
         [ObservableProperty]
         public partial GenderKind Gender { get; set; }
 
-        [GeneratedRegex(@"^(\d*(\.\d*)?\s?(BBY|ABY))|unknown")]
+        [GeneratedRegex(@"^(\d*(\.\d+)?)$|unknown")]
+        private static partial Regex NumberRegex();
+
+        public static ValidationResult? ValidateHeight(string? height)
+        {
+            if (height != null && (height == "unknown" || height == "none" || double.TryParse(height, out _)))
+                return ValidationResult.Success;
+
+            return new ValidationResult("Die Größe muss entweder einer positiven Zahl oder \"unknown\" entsprechen.");
+        }
+
+        [GeneratedRegex(@"^(\d*(\.\d+)?\s?(BBY|ABY))|unknown")]
         private static partial Regex BirthYearRegex();
 
-        public static ValidationResult ValidateBirthYear(string? birthYear, ValidationContext context)
+        public static ValidationResult? ValidateBirthYear(string? birthYear)
         {
             return birthYear != null && BirthYearRegex().IsMatch(birthYear)
-                ? ValidationResult.Success!
+                ? ValidationResult.Success
                 : new ValidationResult("Das Geburtsjahr muss dem Muster \"{Jahreszahl} BBY\", \"{Jahreszahl} ABY\" oder \"unknown\" entsprechen.");
         }
 

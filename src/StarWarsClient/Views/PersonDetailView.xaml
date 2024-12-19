@@ -43,9 +43,9 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="3" />
+                <RowDefinition Height="7" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="3" />
+                <RowDefinition Height="7" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
@@ -66,27 +66,26 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="LabelSizeGroup" />
                     <ColumnDefinition Width="3" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3" />
+                    <ColumnDefinition Width="7" />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="LabelSizeGroup" />
                     <ColumnDefinition Width="3" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Content="Height" />
-
-                <materialDesign:NumericUpDown Grid.Column="2"
-                                              Margin="-4,0,0,0"
-                                              Minimum="0"
-                                              TextBlock.TextAlignment="Left"
-                                              Value="{Binding Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                <Label Grid.Column="4" Content="Mass" />
+                <Label Grid.Column="0" Content="Mass" />
 
                 <TextBox Grid.Row="0"
-                         Grid.Column="6"
+                         Grid.Column="2"
+                         materialDesign:TextFieldAssist.SuffixText="kg"
                          BorderThickness="0"
                          IsReadOnly="True"
                          Text="{Binding Mass, Mode=OneWay}" />
+
+                <Label Grid.Column="4" Content="Gender" />
+
+                <ComboBox Grid.Column="6"
+                          ItemsSource="{Binding Source={StaticResource GenderValues}}"
+                          SelectedItem="{Binding Gender, Mode=TwoWay}" />
             </Grid>
 
             <Grid Grid.Row="4"
@@ -96,21 +95,21 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="LabelSizeGroup" />
                     <ColumnDefinition Width="3" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3" />
+                    <ColumnDefinition Width="7" />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="LabelSizeGroup" />
                     <ColumnDefinition Width="3" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Content="BirthYear" />
+                <Label Grid.Column="0" Content="Height" />
 
-                <TextBox Grid.Column="2" Text="{Binding BirthYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True}" />
+                <TextBox Grid.Column="2"
+                         materialDesign:TextFieldAssist.SuffixText="cm"
+                         Text="{Binding Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True}" />
 
-                <Label Grid.Column="4" Content="Gender" />
+                <Label Grid.Column="4" Content="BirthYear" />
 
-                <ComboBox Grid.Column="6"
-                          ItemsSource="{Binding Source={StaticResource GenderValues}}"
-                          SelectedItem="{Binding Gender, Mode=TwoWay}" />
+                <TextBox Grid.Column="6" Text="{Binding BirthYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True}" />
             </Grid>
         </Grid>
 

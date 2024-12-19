@@ -67,7 +67,19 @@ namespace StarWarsClient.ViewModels
                 if (Results.Count == 0)
                     return 0.0;
 
-                return Results.Sum(p => p.Height) / (double)Results.Count;
+                int counter = 0;
+                double sum = 0.0;
+
+                foreach (var height in Results.Select(p => p.Height))
+                {
+                    if (double.TryParse(height, out var heightParsed))
+                    {
+                        sum += heightParsed;
+                        counter++;
+                    }
+                }
+
+                return sum / counter;
             }
         }
 
@@ -86,14 +98,14 @@ namespace StarWarsClient.ViewModels
                 if (Results.Count == 0)
                     return string.Empty;
 
-                var valuesBBY = Results.Where(p => p.BirthYear.EndsWith("BBY")).Select(p => double.Parse(BirthYearPrefixRegex().Match(p.BirthYear).Value));
-                var valuesABY = Results.Where(p => p.BirthYear.EndsWith("ABY")).Select(p => double.Parse(BirthYearPrefixRegex().Match(p.BirthYear).Value));
+                var valuesBBY = Results.Where(p => p.BirthYear.EndsWith("BBY")).Select(p => double.Parse(BirthYearPrefixRegex().Match(p.BirthYear).Value)).ToList();
+                var valuesABY = Results.Where(p => p.BirthYear.EndsWith("ABY")).Select(p => double.Parse(BirthYearPrefixRegex().Match(p.BirthYear).Value)).ToList();
 
-                var average = valuesABY.Sum() + (-1 * valuesBBY.Sum());
+                var average = (valuesABY.Sum() + (-1 * valuesBBY.Sum())) / (valuesABY.Count + valuesBBY.Count);
 
                 return average < 0.0
-                    ? $"{-average}BBY"
-                    : $"{average}ABY";
+                    ? $"{-average:n2}BBY"
+                    : $"{average:n2}ABY";
             }
         }
 
@@ -104,21 +116,14 @@ namespace StarWarsClient.ViewModels
         {
             get
             {
-                if (Results.Count == 0)
-                    return 0.0;
-
                 var male = Results.Count(p => p.Gender == PersonViewModel.GenderKind.Male);
                 var female = Results.Count(p => p.Gender == PersonViewModel.GenderKind.Female);
+                var count = male + female;
 
-                if (female == 0)
-                {
-                    if (male > 0)
-                        return 100.0;
-                    else
-                        return 0.0;
-                }
+                if (count == 0)
+                    return 0.0;
 
-                return male / (double)female;
+                return male / (double)count;
             }
         }
     }

@@ -8,7 +8,7 @@
         Title="Star Wars API Viewer"
         Width="800"
         Height="450"
-        MinWidth="400"
+        MinWidth="700"
         MinHeight="200"
         Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d">

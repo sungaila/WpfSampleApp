@@ -28,10 +28,10 @@ namespace Shared.Models
         string HairColor,
 
         [property: JsonPropertyName("height")]
-        uint Height,
+        string Height,
 
         [property: JsonPropertyName("mass")]
-        uint Mass,
+        string Mass,
 
         [property: JsonPropertyName("skin_color")]
         string SkinColor,

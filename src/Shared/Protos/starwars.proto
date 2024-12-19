@@ -17,8 +17,8 @@ message GetPeopleReply {
 
 message Person {
   string name = 1;
-  uint32 height = 2;
-  uint32 mass = 3;
+  string height = 2;
+  string mass = 3;
   string birth_year = 4;
   string gender = 5;
 }

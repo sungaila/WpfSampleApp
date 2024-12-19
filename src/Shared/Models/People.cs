@@ -11,10 +11,10 @@ namespace Shared.Models
         int Count,
 
         [property: JsonPropertyName("next")]
-        string Next,
+        string? Next,
 
         [property: JsonPropertyName("previous")]
-        string Previous,
+        string? Previous,
 
         [property: JsonPropertyName("results")]
         Person[] Results

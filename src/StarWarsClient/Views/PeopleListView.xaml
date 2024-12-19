@@ -4,10 +4,12 @@
       xmlns:commands="clr-namespace:StarWarsClient.Commands"
       xmlns:converters="clr-namespace:StarWarsClient.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:extensions="clr-namespace:StarWarsClient.Extensions"
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:local="clr-namespace:StarWarsClient.Views"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
       xmlns:viewModels="clr-namespace:StarWarsClient.ViewModels"
       Title="PeopleListView"
       d:DataContext="{d:DesignInstance Type=viewModels:PeopleViewModel,
@@ -17,6 +19,11 @@
       mc:Ignorable="d">
 
     <Grid>
+        <Grid.Resources>
+            <extensions:NumberComparer x:Key="NumberComparer" x:Shared="True" />
+            <extensions:BirthYearComparer x:Key="BirthYearComparer" x:Shared="True" />
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="3" />
@@ -24,6 +31,7 @@
         </Grid.RowDefinitions>
 
         <DataGrid Grid.Row="0"
+                  extensions:DataGridColumnExtensions.IsCustomSort="True"
                   AutoGenerateColumns="False"
                   CanUserSortColumns="True"
                   IsReadOnly="True"
@@ -32,9 +40,15 @@
                   SelectionUnit="FullRow">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Name, Mode=OneWay}" Header="Name" />
-                <DataGridTextColumn Binding="{Binding Height, Mode=OneWay}" Header="Height" />
-                <DataGridTextColumn Binding="{Binding Mass, Mode=OneWay}" Header="Mass" />
-                <DataGridTextColumn Binding="{Binding BirthYear, Mode=OneWay}" Header="Birth year" />
+                <DataGridTextColumn extensions:DataGridColumnExtensions.CustomSorter="{StaticResource NumberComparer}"
+                                    Binding="{Binding Height, Mode=OneWay}"
+                                    Header="Height (cm)" />
+                <DataGridTextColumn extensions:DataGridColumnExtensions.CustomSorter="{StaticResource NumberComparer}"
+                                    Binding="{Binding Mass, Mode=OneWay}"
+                                    Header="Mass (kg)" />
+                <DataGridTextColumn extensions:DataGridColumnExtensions.CustomSorter="{StaticResource BirthYearComparer}"
+                                    Binding="{Binding BirthYear, Mode=OneWay}"
+                                    Header="Birth year" />
                 <DataGridTextColumn Binding="{Binding Gender, Mode=OneWay}" Header="Gender" />
             </DataGrid.Columns>
 
@@ -43,12 +57,6 @@
                             Command="{x:Static commands:PersonCommands.OpenDetailsCommand}"
                             CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
             </DataGrid.InputBindings>
-
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{x:Static commands:PersonCommands.OpenDetailsCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
 
             <DataGrid.RowStyle>
                 <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
@@ -66,6 +74,7 @@
                                 </ContextMenu>
                             </Setter.Value>
                         </Setter>
+                        <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick" />
                     </Style.Setters>
                 </Style>
             </DataGrid.RowStyle>
@@ -105,45 +114,55 @@
 
         <Grid Grid.Row="3" Grid.IsSharedSizeScope="True">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" SharedSizeGroup="LabelGroup" />
-                <ColumnDefinition Width="3" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="3" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="LabelGroup" />
-                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="14" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="3" />
-                <ColumnDefinition Width="Auto" SharedSizeGroup="LabelGroup" />
-                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="14" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="14" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Column="0" Content="⌀ Height" />
+            <Label Grid.Column="0" Content="Count" />
 
             <TextBox Grid.Column="2"
-                     Width="100"
-                     HorizontalAlignment="Left"
                      BorderThickness="0"
                      IsReadOnly="True"
-                     Text="{Binding AverageHeight, Mode=OneWay, StringFormat={}{0:n}}" />
+                     Text="{Binding Results.Count, Mode=OneWay, StringFormat={}{0:n0}}"
+                     TextAlignment="Right" />
 
-            <Label Grid.Column="4" Content="⌀ Birth year" />
+            <Label Grid.Column="4" Content="⌀ Height" />
 
             <TextBox Grid.Column="6"
-                     Width="100"
-                     HorizontalAlignment="Left"
+                     materialDesign:TextFieldAssist.SuffixText="cm"
                      BorderThickness="0"
                      IsReadOnly="True"
-                     Text="{Binding AverageBirthYear, Mode=OneWay}" />
+                     Text="{Binding AverageHeight, Mode=OneWay, StringFormat={}{0:n2}}"
+                     TextAlignment="Right" />
 
-            <Label Grid.Column="8" Content="Male/Female" />
+            <Label Grid.Column="8" Content="⌀ Birth year" />
 
             <TextBox Grid.Column="10"
-                     Width="100"
-                     HorizontalAlignment="Left"
                      BorderThickness="0"
                      IsReadOnly="True"
-                     Text="{Binding MaleFemaleRatio, Mode=OneWay, StringFormat={}{0:P}}" />
+                     Text="{Binding AverageBirthYear, Mode=OneWay}"
+                     TextAlignment="Right" />
+
+            <Label Grid.Column="12" Content="Male/Female" />
+
+            <TextBox Grid.Column="14"
+                     BorderThickness="0"
+                     IsReadOnly="True"
+                     Text="{Binding MaleFemaleRatio, Mode=OneWay, StringFormat={}{0:P2}}"
+                     TextAlignment="Right" />
         </Grid>
     </Grid>
 </Page>
